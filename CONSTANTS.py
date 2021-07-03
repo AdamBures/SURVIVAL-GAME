@@ -12,5 +12,6 @@ BACKGROUND = pygame.image.load(IMAGE)
 WIDTH = BACKGROUND.get_width()
 HEIGHT = BACKGROUND.get_height()
 
-FONT_TYPE = 'freesansbold.ttf'
-FONT_SIZE = 24
+
+FONT_TYPE = 'Fonts\pixeboy.ttf'
+FONT_SIZE = 60
