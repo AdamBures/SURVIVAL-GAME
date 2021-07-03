@@ -8,13 +8,16 @@ pygame.display.set_caption("Survival game")
 SCREEN.blit(BACKGROUND, (0, 0))
 
 
-FONT = pygame.font.Font(FONT_TYPE, FONT_SIZE)
-TEXT = FONT.render("SURVIVAL GAME", False, "WHITE")
-TEXT_RECT = TEXT.get_rect(center=(WIDTH/2, (HEIGHT/2)-100))
+def draw_text(text, font, color, surface, distance):
+    text_obj = font.render(text, 1, color)
+    text_rect = text_obj.get_rect(center=(WIDTH/2, (HEIGHT/2)+distance))
+    surface.blit(text_obj, text_rect)
 
 
 def main():
-    SCREEN.blit(TEXT, TEXT_RECT)
+    draw_text("START", pygame.font.Font(FONT_TYPE, FONT_SIZE), "WHITE", SCREEN, -30)
+    draw_text("OPTIONS", pygame.font.Font(FONT_TYPE, FONT_SIZE), "WHITE", SCREEN, 30)
+    draw_text("EXIT", pygame.font.Font(FONT_TYPE, FONT_SIZE), "WHITE", SCREEN, 80)
     running = True
     while running:
         for event in pygame.event.get():
