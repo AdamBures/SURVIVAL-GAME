@@ -9,7 +9,14 @@ pygame.display.set_caption("Survival game")
 SCREEN.blit(BACKGROUND, (0, 0))
 
 
+class Level1(object):
+    pass
+
+
 class MainMenu(object):
+    def __init__(self):
+        super().__init__()
+
     def draw_text(self, text, font, color, surface, distance):
         text_obj = font.render(text, 1, color)
         text_rect = text_obj.get_rect(center=(WIDTH/2, (HEIGHT/2)+distance))
@@ -19,7 +26,8 @@ class MainMenu(object):
         running = True
         while running:
             SCREEN.fill((0, 0, 0))
-
+            BACKGROUND = pygame.image.load(r"Pictures\level1.jpg")
+            SCREEN.blit(BACKGROUND, (0, 0))
             MainMenu().draw_text('game', pygame.font.Font(FONT_TYPE, FONT_SIZE), (255, 255, 255), SCREEN, 0)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -58,9 +66,9 @@ class MainMenu(object):
         button_2 = pygame.Rect(260, 215, 200, 40)
         button_3 = pygame.Rect(260, 275, 200, 40)
 
-        pygame.draw.rect(SCREEN, (118, 118, 118), button_1)
-        pygame.draw.rect(SCREEN, (118, 118, 118), button_2)
-        pygame.draw.rect(SCREEN, (118, 118, 118), button_3)
+        pygame.draw.rect(SCREEN, (118, 118, 118), button_1, border_radius=4)
+        pygame.draw.rect(SCREEN, (118, 118, 118), button_2, border_radius=4)
+        pygame.draw.rect(SCREEN, (118, 118, 118), button_3, border_radius=4)
         MainMenu().draw_text("START", pygame.font.Font(FONT_TYPE, FONT_SIZE), "WHITE", SCREEN, -30)
         MainMenu().draw_text("OPTIONS", pygame.font.Font(FONT_TYPE, FONT_SIZE), "WHITE", SCREEN, 30)
         MainMenu().draw_text("EXIT", pygame.font.Font(FONT_TYPE, FONT_SIZE), "WHITE", SCREEN, 90)
