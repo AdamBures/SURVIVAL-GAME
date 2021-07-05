@@ -1,6 +1,5 @@
 import sys
 import pygame.mouse
-
 import CONSTANTS
 from CONSTANTS import *
 
