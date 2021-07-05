@@ -1,5 +1,7 @@
 import sys
 import pygame.mouse
+
+import CONSTANTS
 from CONSTANTS import *
 
 pygame.init()
@@ -7,6 +9,23 @@ pygame.init()
 SCREEN = pygame.display.set_mode([WIDTH, HEIGHT])
 pygame.display.set_caption("Survival game")
 SCREEN.blit(BACKGROUND, (0, 0))
+
+
+class Player:
+    def __init__(self):
+        # pygame.sprite.Sprite().__init__(self)
+        self.move_x = 0
+        self.move_y = 0
+        self.frame = 0
+        self.images = []
+        self.rect = pygame.Rect(self.move_x, self.move_y, 40, 200)
+
+    def control(self, x, y):
+        """
+        control player movement
+        """
+        self.move_x += x
+        self.move_y += y
 
 
 class Level1(object):
@@ -25,10 +44,9 @@ class MainMenu(object):
     def start_game(self):
         running = True
         while running:
-            SCREEN.fill((0, 0, 0))
-            BACKGROUND = pygame.image.load(r"Pictures\level1.jpg")
-            SCREEN.blit(BACKGROUND, (0, 0))
-            MainMenu().draw_text('game', pygame.font.Font(FONT_TYPE, FONT_SIZE), (255, 255, 255), SCREEN, 0)
+            SCREEN.blit(LEVEL1, (0, 0))
+            MainMenu().draw_text('level 1', pygame.font.Font(FONT_TYPE, FONT_SIZE), (255, 255, 255), SCREEN, 0)
+            pygame.time.delay(100)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -37,15 +55,34 @@ class MainMenu(object):
                     if event.key == pygame.K_ESCAPE:
                         running = False
 
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_LEFT]:
+                CONSTANTS.X -= VEL
+                print('left')
+            if keys[pygame.K_RIGHT]:
+                CONSTANTS.X += VEL
+                print('right')
+            if keys[pygame.K_UP]:
+                print('jump')
+
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_LEFT or event.key == ord('a'):
+                        # player.control(steps, 0)
+                        print('left stop')
+                    if event.key == pygame.K_RIGHT or event.key == ord('d'):
+                        # player.control(-steps, 0)
+                        print('right stop')
+
+            pygame.draw.rect(SCREEN, (255, 0, 0), (CONSTANTS.X, 290, WIDTH_PLAYER, HEIGHT_PLAYER))
             pygame.display.update()
             CLOCK.tick(60)
 
     def options(self):
         running = True
         while running:
-            SCREEN.fill((0, 0, 0))
+            SCREEN.blit(BACKGROUND, (0, 0))
 
-            MainMenu().draw_text('options', pygame.font.Font(FONT_TYPE, FONT_SIZE), (255, 255, 255), SCREEN, 0)
+            MainMenu().draw_text('options', pygame.font.Font(FONT_TYPE, 15), (255, 255, 255), SCREEN, 0)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
