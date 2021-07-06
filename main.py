@@ -35,12 +35,19 @@ class MainMenu(object):
     def __init__(self):
         super().__init__()
 
+    def draw_text_with_position(self, text, font, color, surface, x, y):
+        text_obj = font.render(text, 1, color)
+        text_rect = text_obj.get_rect()
+        text_rect.topleft = (x, y)
+        surface.blit(text_obj, text_rect)
+
     def draw_text(self, text, font, color, surface, distance):
         text_obj = font.render(text, 1, color)
         text_rect = text_obj.get_rect(center=(WIDTH/2, (HEIGHT/2)+distance))
         surface.blit(text_obj, text_rect)
 
     def start_game(self):
+        global event
         running = True
         while running:
             SCREEN.blit(LEVEL1, (0, 0))
@@ -66,22 +73,30 @@ class MainMenu(object):
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == ord('a'):
-                        # player.control(steps, 0)
                         print('left stop')
                     if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                        # player.control(-steps, 0)
                         print('right stop')
 
             pygame.draw.rect(SCREEN, (255, 0, 0), (CONSTANTS.X, 290, WIDTH_PLAYER, HEIGHT_PLAYER))
             pygame.display.update()
             CLOCK.tick(60)
 
-    def options(self):
+    def about(self):
+        SCREEN.blit(BACKGROUND, (0, 0))
+
+        back_to_menu = pygame.Rect(0, 0, 40, 40)
+        pygame.draw.rect(SCREEN, (118, 118, 118), back_to_menu, border_radius=4)
+        
+        MainMenu().draw_text_with_position("<-", pygame.font.Font(FONT_TYPE, 32), (255, 255, 255), SCREEN, 5, 10)
+        MainMenu().draw_text('About', pygame.font.Font(FONT_TYPE, 64), (255, 255, 255), SCREEN, -30)
+        MainMenu().draw_text("This game is about you surviving as a knight.",
+                             pygame.font.Font(FONT_TYPE, 24), (0, 0, 0), SCREEN, 30)
+        MainMenu().draw_text("Your task is to get to treasure before orcs.",
+                             pygame.font.Font(FONT_TYPE, 24), (0, 0, 0), SCREEN, 60)
+        MainMenu().draw_text("Along the way you gotta fight them.",
+                             pygame.font.Font(FONT_TYPE, 24), (0, 0, 0), SCREEN, 90)
         running = True
         while running:
-            SCREEN.blit(BACKGROUND, (0, 0))
-
-            MainMenu().draw_text('options', pygame.font.Font(FONT_TYPE, 15), (255, 255, 255), SCREEN, 0)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -89,6 +104,12 @@ class MainMenu(object):
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         running = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_pos = event.pos
+
+                    if back_to_menu.collidepoint(mouse_pos):
+                        MainMenu().main()
+
 
             pygame.display.update()
             CLOCK.tick(60)
@@ -98,6 +119,8 @@ class MainMenu(object):
         sys.exit()
 
     def main(self):
+        SCREEN.blit(BACKGROUND, (0, 0))
+
         button_1 = pygame.Rect(260, 155, 200, 40)
         button_2 = pygame.Rect(260, 215, 200, 40)
         button_3 = pygame.Rect(260, 275, 200, 40)
@@ -106,7 +129,7 @@ class MainMenu(object):
         pygame.draw.rect(SCREEN, (118, 118, 118), button_2, border_radius=4)
         pygame.draw.rect(SCREEN, (118, 118, 118), button_3, border_radius=4)
         MainMenu().draw_text("START", pygame.font.Font(FONT_TYPE, FONT_SIZE), "WHITE", SCREEN, -30)
-        MainMenu().draw_text("OPTIONS", pygame.font.Font(FONT_TYPE, FONT_SIZE), "WHITE", SCREEN, 30)
+        MainMenu().draw_text("ABOUT", pygame.font.Font(FONT_TYPE, FONT_SIZE), "WHITE", SCREEN, 30)
         MainMenu().draw_text("EXIT", pygame.font.Font(FONT_TYPE, FONT_SIZE), "WHITE", SCREEN, 90)
 
         running = True
@@ -122,7 +145,7 @@ class MainMenu(object):
                         MainMenu().start_game()
 
                     if button_2.collidepoint(mouse_pos):
-                        MainMenu().options()
+                        MainMenu().about()
 
                     if button_3.collidepoint(mouse_pos):
                         MainMenu().terminate()
