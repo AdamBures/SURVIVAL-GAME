@@ -13,18 +13,25 @@ SCREEN.blit(BACKGROUND, (0, 0))
 class Player:
     def __init__(self):
         # pygame.sprite.Sprite().__init__(self)
-        self.move_x = 0
-        self.move_y = 0
-        self.frame = 0
-        self.images = []
-        self.rect = pygame.Rect(self.move_x, self.move_y, 40, 200)
+        self.left = False
+        self.right = False
+        self.walk_count = 0
 
-    def control(self, x, y):
-        """
-        control player movement
-        """
-        self.move_x += x
-        self.move_y += y
+    def redraw_game_window(self):
+        SCREEN.blit(LEVEL1, (0, 0))
+        if self.walk_count + 1 >= 27:
+            self.walk_count = 0
+
+        if self.left:
+            SCREEN.blit(WALK_LEFT[self.walk_count // 3], (CONSTANTS.X, CONSTANTS.Y))
+            self.walk_count += 1
+
+        elif self.right:
+            SCREEN.blit(WALK_RIGHT[self.walk_count // 3], (CONSTANTS.X, CONSTANTS.Y))
+            self.walk_count += 1
+        else:
+            SCREEN.blit(PLAYER, (CONSTANTS.X, CONSTANTS.Y))
+            self.walk_count = 0
 
 
 class Level1(object):
@@ -43,13 +50,14 @@ class MainMenu(object):
 
     def draw_text(self, text, font, color, surface, distance):
         text_obj = font.render(text, 1, color)
-        text_rect = text_obj.get_rect(center=(WIDTH/2, (HEIGHT/2)+distance))
+        text_rect = text_obj.get_rect(center=(WIDTH / 2, (HEIGHT / 2) + distance))
         surface.blit(text_obj, text_rect)
 
     def start_game(self):
-        global event
+        player = Player()
         running = True
         while running:
+            CLOCK.tick(27)
             SCREEN.blit(LEVEL1, (0, 0))
             MainMenu().draw_text('level 1', pygame.font.Font(FONT_TYPE, FONT_SIZE), (255, 255, 255), SCREEN, 0)
             pygame.time.delay(100)
@@ -62,11 +70,15 @@ class MainMenu(object):
                         running = False
 
             keys = pygame.key.get_pressed()
-            if keys[pygame.K_LEFT]:
+            if keys[pygame.K_LEFT] :
                 CONSTANTS.X -= VEL
+                player.left = True
+                player.right = False
                 print('left')
             if keys[pygame.K_RIGHT]:
                 CONSTANTS.X += VEL
+                player.right = True
+                player.left = False
                 print('right')
             if keys[pygame.K_UP]:
                 print('jump')
@@ -76,17 +88,16 @@ class MainMenu(object):
                         print('left stop')
                     if event.key == pygame.K_RIGHT or event.key == ord('d'):
                         print('right stop')
-
+            player.redraw_game_window()
             pygame.draw.rect(SCREEN, (255, 0, 0), (CONSTANTS.X, 290, WIDTH_PLAYER, HEIGHT_PLAYER))
             pygame.display.update()
-            CLOCK.tick(60)
 
     def about(self):
         SCREEN.blit(BACKGROUND, (0, 0))
 
         back_to_menu = pygame.Rect(0, 0, 40, 40)
         pygame.draw.rect(SCREEN, (118, 118, 118), back_to_menu, border_radius=4)
-        
+
         MainMenu().draw_text_with_position("<-", pygame.font.Font(FONT_TYPE, 32), (255, 255, 255), SCREEN, 5, 10)
         MainMenu().draw_text('About', pygame.font.Font(FONT_TYPE, 64), (255, 255, 255), SCREEN, -30)
         MainMenu().draw_text("This game is about you surviving as a knight.",
@@ -109,7 +120,6 @@ class MainMenu(object):
 
                     if back_to_menu.collidepoint(mouse_pos):
                         MainMenu().main()
-
 
             pygame.display.update()
             CLOCK.tick(60)
