@@ -23,15 +23,42 @@ class Player:
             self.walk_count = 0
 
         if self.left:
-            SCREEN.blit(WALK_LEFT[self.walk_count // 3], (CONSTANTS.X, CONSTANTS.Y))
+            SCREEN.blit(WALK_LEFT[self.walk_count // 3].convert_alpha(), (CONSTANTS.X, CONSTANTS.Y))
             self.walk_count += 1
 
         elif self.right:
-            SCREEN.blit(WALK_RIGHT[self.walk_count // 3], (CONSTANTS.X, CONSTANTS.Y))
+            SCREEN.blit(WALK_RIGHT[self.walk_count // 3].convert_alpha(), (CONSTANTS.X, CONSTANTS.Y))
             self.walk_count += 1
         else:
-            SCREEN.blit(PLAYER, (CONSTANTS.X, CONSTANTS.Y))
+            SCREEN.blit(PLAYER.convert_alpha(), (CONSTANTS.X, CONSTANTS.Y))
             self.walk_count = 0
+#
+# def set_background(image):
+#     CONSTANTS.BACKGROUND =
+
+def scroll_background(x, y):
+    CONSTANTS.BACKGROUND.scroll(x, y)
+
+
+def redrawGameWindow():
+    SCREEN.blit(LEVEL1, (0, 0))
+    MainMenu().draw_text('TUTORIAL', pygame.font.Font(FONT_TYPE, FONT_SIZE), (255, 255, 255), SCREEN, 0)
+    if CONSTANTS.WALK_COUNT + 1 >= 27:
+        CONSTANTS.WALK_COUNT = 0
+
+    if CONSTANTS.LEFT:
+        SCREEN.blit(WALK_LEFT[CONSTANTS.WALK_COUNT//3], (CONSTANTS.X, CONSTANTS.Y))
+        CONSTANTS.WALK_COUNT += 1
+
+    elif CONSTANTS.RIGHT:
+        SCREEN.blit(WALK_RIGHT[CONSTANTS.WALK_COUNT//3], (CONSTANTS.X, CONSTANTS.Y))
+        CONSTANTS.WALK_COUNT += 1
+        print(CONSTANTS.WALK_COUNT)
+    else:
+        SCREEN.blit(PLAYER, (CONSTANTS.X, CONSTANTS.Y))
+        CONSTANTS.WALK_COUNT = 0
+
+    pygame.display.update()
 
 
 class Level1(object):
@@ -54,13 +81,9 @@ class MainMenu(object):
         surface.blit(text_obj, text_rect)
 
     def start_game(self):
-        player = Player()
         running = True
         while running:
             CLOCK.tick(27)
-            SCREEN.blit(LEVEL1, (0, 0))
-            MainMenu().draw_text('level 1', pygame.font.Font(FONT_TYPE, FONT_SIZE), (255, 255, 255), SCREEN, 0)
-            pygame.time.delay(100)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -70,27 +93,24 @@ class MainMenu(object):
                         running = False
 
             keys = pygame.key.get_pressed()
-            if keys[pygame.K_LEFT] :
+            if keys[pygame.K_LEFT]:
+                scroll_background(-VEL, 0)
                 CONSTANTS.X -= VEL
-                player.left = True
-                player.right = False
-                print('left')
+                CONSTANTS.LEFT = True
+                CONSTANTS.RIGHT = False
+                print("left")
             if keys[pygame.K_RIGHT]:
+                scroll_background(VEL, 0)
                 CONSTANTS.X += VEL
-                player.right = True
-                player.left = False
+                CONSTANTS.RIGHT = True
+                CONSTANTS.LEFT = False
                 print('right')
-            if keys[pygame.K_UP]:
-                print('jump')
 
-                if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_LEFT or event.key == ord('a'):
-                        print('left stop')
-                    if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                        print('right stop')
-            player.redraw_game_window()
-            pygame.draw.rect(SCREEN, (255, 0, 0), (CONSTANTS.X, 290, WIDTH_PLAYER, HEIGHT_PLAYER))
-            pygame.display.update()
+            else:
+                CONSTANTS.LEFT = False
+                CONSTANTS.RIGHT = False
+                CONSTANTS.WALK_COUNT = 0
+            redrawGameWindow()
 
     def about(self):
         SCREEN.blit(BACKGROUND, (0, 0))
@@ -153,13 +173,14 @@ class MainMenu(object):
 
                     if button_1.collidepoint(mouse_pos):
                         MainMenu().start_game()
+                        break
 
                     if button_2.collidepoint(mouse_pos):
                         MainMenu().about()
-
+                        break
                     if button_3.collidepoint(mouse_pos):
                         MainMenu().terminate()
-
+                        break
             pygame.display.update()
             CLOCK.tick(FPS)
 
