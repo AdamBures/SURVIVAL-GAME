@@ -12,7 +12,7 @@ WALK_RIGHT = [pygame.image.load(r'Sprites\R1.png'),
               pygame.image.load(r'Sprites\R7.png'),
               pygame.image.load(r'Sprites\R8.png'),
               pygame.image.load(r'Sprites\R9.png')]
-
+              
 WALK_LEFT = [pygame.image.load(r'Sprites\L1.png'),
              pygame.image.load(r'Sprites\L2.png'),
              pygame.image.load(r'Sprites\L3.png'),
@@ -26,7 +26,7 @@ WALK_LEFT = [pygame.image.load(r'Sprites\L1.png'),
 PLAYER = pygame.image.load(r'Sprites\standing.png')
 
 X = 50
-Y = 50
+Y = 290
 WIDTH_PLAYER = 40
 HEIGHT_PLAYER = 60
 VEL = 5
@@ -40,6 +40,9 @@ LEVEL1 = pygame.image.load(r"Pictures\level1.jpg")
 WIDTH = BACKGROUND.get_width()
 HEIGHT = BACKGROUND.get_height()
 
+LEFT = False
+RIGHT = False
 
+WALK_COUNT = 0
 FONT_TYPE = r'Fonts\pixeboy.ttf'
 FONT_SIZE = 60
