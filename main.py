@@ -19,7 +19,7 @@ class Player:
 
     def redraw_game_window(self):
         SCREEN.blit(LEVEL1, (0, 0))
-        if self.walk_count + 1 >= 27:
+        if self.walk_count + 1 >= 24:
             self.walk_count = 0
 
         if self.left:
@@ -36,27 +36,26 @@ class Player:
 # def set_background(image):
 #     CONSTANTS.BACKGROUND =
 
-def scroll_background(x, y):
-    CONSTANTS.BACKGROUND.scroll(x, y)
+# def scroll_background(x, y):
+#     CONSTANTS.BACKGROUND.scroll(x, y)
 
 
 def redrawGameWindow():
     SCREEN.blit(LEVEL1, (0, 0))
+    SCREEN.blit(CONSTANTS.CHEST, (WIDTH//2, 290))
     MainMenu().draw_text('TUTORIAL', pygame.font.Font(FONT_TYPE, FONT_SIZE), (255, 255, 255), SCREEN, 0)
-    if CONSTANTS.WALK_COUNT + 1 >= 27:
+    if CONSTANTS.WALK_COUNT + 1 >= 24:
         CONSTANTS.WALK_COUNT = 0
-
+    elif CONSTANTS.STAND_COUNT + 1 >= 24:
+        CONSTANTS.STAND_COUNT = 0
     if CONSTANTS.LEFT:
         SCREEN.blit(WALK_LEFT[CONSTANTS.WALK_COUNT//3], (CONSTANTS.X, CONSTANTS.Y))
         CONSTANTS.WALK_COUNT += 1
-
     elif CONSTANTS.RIGHT:
         SCREEN.blit(WALK_RIGHT[CONSTANTS.WALK_COUNT//3], (CONSTANTS.X, CONSTANTS.Y))
         CONSTANTS.WALK_COUNT += 1
-        print(CONSTANTS.WALK_COUNT)
     else:
-        SCREEN.blit(PLAYER, (CONSTANTS.X, CONSTANTS.Y))
-        CONSTANTS.WALK_COUNT = 0
+        SCREEN.blit(PLAYER[CONSTANTS.STAND_COUNT//3], (CONSTANTS.X, CONSTANTS.Y))
 
     pygame.display.update()
 
@@ -92,24 +91,27 @@ class MainMenu(object):
                     if event.key == pygame.K_ESCAPE:
                         running = False
 
+
             keys = pygame.key.get_pressed()
-            if keys[pygame.K_LEFT]:
-                scroll_background(-VEL, 0)
+            
+            if keys[pygame.K_LEFT] and CONSTANTS.X > CONSTANTS.VEL:
+                # scroll_background(-VEL, 0)
                 CONSTANTS.X -= VEL
-                CONSTANTS.LEFT = True
                 CONSTANTS.RIGHT = False
+                CONSTANTS.LEFT = True
                 print("left")
-            if keys[pygame.K_RIGHT]:
-                scroll_background(VEL, 0)
+            elif keys[pygame.K_RIGHT]:
+                # scroll_background(VEL, 0)
                 CONSTANTS.X += VEL
                 CONSTANTS.RIGHT = True
                 CONSTANTS.LEFT = False
                 print('right')
 
             else:
-                CONSTANTS.LEFT = False
                 CONSTANTS.RIGHT = False
+                CONSTANTS.LEFT = False
                 CONSTANTS.WALK_COUNT = 0
+                CONSTANTS.STAND_COUNT += 1
             redrawGameWindow()
 
     def about(self):
