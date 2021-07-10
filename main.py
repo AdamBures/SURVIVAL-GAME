@@ -12,7 +12,6 @@ SCREEN.blit(BACKGROUND, (0, 0))
 
 class Player:
     def __init__(self):
-        # pygame.sprite.Sprite().__init__(self)
         self.left = False
         self.right = False
         self.walk_count = 0
@@ -32,12 +31,6 @@ class Player:
         else:
             SCREEN.blit(PLAYER.convert_alpha(), (CONSTANTS.X, CONSTANTS.Y))
             self.walk_count = 0
-#
-# def set_background(image):
-#     CONSTANTS.BACKGROUND =
-
-# def scroll_background(x, y):
-#     CONSTANTS.BACKGROUND.scroll(x, y)
 
 
 def redrawGameWindow():
@@ -46,16 +39,29 @@ def redrawGameWindow():
     MainMenu().draw_text('TUTORIAL', pygame.font.Font(FONT_TYPE, FONT_SIZE), (255, 255, 255), SCREEN, 0)
     if CONSTANTS.WALK_COUNT + 1 >= 24:
         CONSTANTS.WALK_COUNT = 0
+
     elif CONSTANTS.STAND_COUNT + 1 >= 24:
         CONSTANTS.STAND_COUNT = 0
+
+    elif CONSTANTS.SKELETON_COUNT + 1 >= 24:
+        CONSTANTS.SKELETON_COUNT = 0
+
+    if CONSTANTS.OPENED:
+        SCREEN.blit(CONSTANTS.CHEST_OPENED, (WIDTH//2, 290))
+
+    if CONSTANTS.SKELETON_LIVING:
+        SCREEN.blit(pygame.transform.scale(SKELETON[CONSTANTS.SKELETON_COUNT//3], (46, 46)), (290, 305))
+
     if CONSTANTS.LEFT:
-        SCREEN.blit(WALK_LEFT[CONSTANTS.WALK_COUNT//3], (CONSTANTS.X, CONSTANTS.Y))
+        SCREEN.blit(pygame.transform.scale(WALK_LEFT[CONSTANTS.WALK_COUNT//3], (128, 64)), (CONSTANTS.X, CONSTANTS.Y))
         CONSTANTS.WALK_COUNT += 1
+
     elif CONSTANTS.RIGHT:
-        SCREEN.blit(WALK_RIGHT[CONSTANTS.WALK_COUNT//3], (CONSTANTS.X, CONSTANTS.Y))
+        SCREEN.blit(pygame.transform.scale(WALK_RIGHT[CONSTANTS.WALK_COUNT//3], (128, 64)), (CONSTANTS.X, CONSTANTS.Y))
         CONSTANTS.WALK_COUNT += 1
+
     else:
-        SCREEN.blit(PLAYER[CONSTANTS.STAND_COUNT//3], (CONSTANTS.X, CONSTANTS.Y))
+        SCREEN.blit(pygame.transform.scale(PLAYER[CONSTANTS.STAND_COUNT//3], (128, 64)), (CONSTANTS.X, CONSTANTS.Y))
 
     pygame.display.update()
 
@@ -83,6 +89,8 @@ class MainMenu(object):
         running = True
         while running:
             CLOCK.tick(27)
+            CONSTANTS.SKELETON_LIVING = True
+            CONSTANTS.SKELETON_COUNT += 1
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -93,25 +101,30 @@ class MainMenu(object):
 
 
             keys = pygame.key.get_pressed()
-            
             if keys[pygame.K_LEFT] and CONSTANTS.X > CONSTANTS.VEL:
-                # scroll_background(-VEL, 0)
                 CONSTANTS.X -= VEL
                 CONSTANTS.RIGHT = False
                 CONSTANTS.LEFT = True
                 print("left")
+
             elif keys[pygame.K_RIGHT]:
-                # scroll_background(VEL, 0)
                 CONSTANTS.X += VEL
                 CONSTANTS.RIGHT = True
                 CONSTANTS.LEFT = False
                 print('right')
+
+            elif keys[pygame.K_e] and CONSTANTS.PLAYER[CONSTANTS.STAND_COUNT//3].get_rect().colliderect(CONSTANTS.CHEST.get_rect()):
+                CONSTANTS.OPENED = True
+                print("Open")
 
             else:
                 CONSTANTS.RIGHT = False
                 CONSTANTS.LEFT = False
                 CONSTANTS.WALK_COUNT = 0
                 CONSTANTS.STAND_COUNT += 1
+
+
+
             redrawGameWindow()
 
     def about(self):
