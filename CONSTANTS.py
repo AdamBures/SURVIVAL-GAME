@@ -30,6 +30,18 @@ PLAYER = [pygame.image.load(r'Sprites\S1.png'),
           pygame.image.load(r'Sprites\S7.png'),
           pygame.image.load(r'Sprites\S8.png')]
 
+SKELETON = [pygame.image.load(r'Sprites\SL1.png'),
+            pygame.image.load(r'Sprites\SL2.png'),
+            pygame.image.load(r'Sprites\SL3.png'),
+            pygame.image.load(r'Sprites\SL4.png'),
+            pygame.image.load(r'Sprites\SL5.png'),
+            pygame.image.load(r'Sprites\SL6.png'),
+            pygame.image.load(r'Sprites\SL7.png'),
+            pygame.image.load(r'Sprites\SL8.png'),
+            pygame.image.load(r'Sprites\SL9.png'),
+            pygame.image.load(r'Sprites\SL10.png'),
+            pygame.image.load(r'Sprites\SL11.png')]
+
 CHEST = pygame.image.load(r"Sprites\chest.png")
 
 CHEST_OPENED = pygame.image.load(r"Sprites\chest_opened.png")
@@ -40,7 +52,7 @@ WIDTH_PLAYER = 40
 HEIGHT_PLAYER = 60
 VEL = 5
 
-FPS = 60
+FPS = 27
 CLOCK = pygame.time.Clock()
 
 IMAGE = r"Pictures\images.jpg"
@@ -49,8 +61,13 @@ LEVEL1 = pygame.image.load(r"Pictures\level1.jpg")
 WIDTH = BACKGROUND.get_width()
 HEIGHT = BACKGROUND.get_height()
 
+BACKGROUND_X = 0
+BACKGROUND_X_2 =LEVEL1.get_width()
+SKELETON_LIVING = False
+OPENED = False
 LEFT = False
 RIGHT = False
+SKELETON_COUNT = 0
 STAND_COUNT = 0
 WALK_COUNT = 0
 FONT_TYPE = r'Fonts\pixeboy.ttf'
