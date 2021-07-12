@@ -46,6 +46,9 @@ def redrawGameWindow():
     elif CONSTANTS.SKELETON_COUNT + 1 >= 24:
         CONSTANTS.SKELETON_COUNT = 0
 
+    elif CONSTANTS.PRAY_COUNT + 1 >= 36:
+        CONSTANTS.PRAY_COUNT = 0
+
     if CONSTANTS.OPENED:
         SCREEN.blit(CONSTANTS.CHEST_OPENED, (WIDTH//2, 290))
 
@@ -59,6 +62,9 @@ def redrawGameWindow():
     elif CONSTANTS.RIGHT:
         SCREEN.blit(pygame.transform.scale(WALK_RIGHT[CONSTANTS.WALK_COUNT//3], (128, 64)), (CONSTANTS.X, CONSTANTS.Y))
         CONSTANTS.WALK_COUNT += 1
+
+    elif CONSTANTS.PRAYING:
+        SCREEN.blit(PRAY[CONSTANTS.PRAY_COUNT//3], (CONSTANTS.X, CONSTANTS.Y))
 
     else:
         SCREEN.blit(pygame.transform.scale(PLAYER[CONSTANTS.STAND_COUNT//3], (128, 64)), (CONSTANTS.X, CONSTANTS.Y))
@@ -99,8 +105,8 @@ class MainMenu(object):
                     if event.key == pygame.K_ESCAPE:
                         running = False
 
-
             keys = pygame.key.get_pressed()
+            print(CONSTANTS.WIDTH//2, CONSTANTS.X, CONSTANTS.Y)
             if keys[pygame.K_LEFT] and CONSTANTS.X > CONSTANTS.VEL:
                 CONSTANTS.X -= VEL
                 CONSTANTS.RIGHT = False
@@ -113,17 +119,21 @@ class MainMenu(object):
                 CONSTANTS.LEFT = False
                 print('right')
 
-            elif keys[pygame.K_e] and CONSTANTS.PLAYER[CONSTANTS.STAND_COUNT//3].get_rect().colliderect(CONSTANTS.CHEST.get_rect()):
+            elif keys[pygame.K_e]:
+                CONSTANTS.PRAYING = True
+                CONSTANTS.PRAY_COUNT += 1
+                print("Praying")
+
+            elif keys[pygame.K_KP_ENTER] and CONSTANTS.X in [310, 320, 330, 340, 350] and CONSTANTS.Y == 290:
                 CONSTANTS.OPENED = True
                 print("Open")
 
             else:
+                CONSTANTS.PRAYING = False
                 CONSTANTS.RIGHT = False
                 CONSTANTS.LEFT = False
                 CONSTANTS.WALK_COUNT = 0
                 CONSTANTS.STAND_COUNT += 1
-
-
 
             redrawGameWindow()
 
