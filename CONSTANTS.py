@@ -42,6 +42,19 @@ SKELETON = [pygame.image.load(r'Sprites\SL1.png'),
             pygame.image.load(r'Sprites\SL10.png'),
             pygame.image.load(r'Sprites\SL11.png')]
 
+PRAY = [pygame.image.load(r'Sprites\P0.png'),
+        pygame.image.load(r'Sprites\P1.png'),
+        pygame.image.load(r'Sprites\P2.png'),
+        pygame.image.load(r'Sprites\P3.png'),
+        pygame.image.load(r'Sprites\P4.png'),
+        pygame.image.load(r'Sprites\P5.png'),
+        pygame.image.load(r'Sprites\P6.png'),
+        pygame.image.load(r'Sprites\P7.png'),
+        pygame.image.load(r'Sprites\P8.png'),
+        pygame.image.load(r'Sprites\P9.png'),
+        pygame.image.load(r'Sprites\P10.png'),
+        pygame.image.load(r'Sprites\P11.png')]
+
 CHEST = pygame.image.load(r"Sprites\chest.png")
 
 CHEST_OPENED = pygame.image.load(r"Sprites\chest_opened.png")
@@ -62,13 +75,17 @@ WIDTH = BACKGROUND.get_width()
 HEIGHT = BACKGROUND.get_height()
 
 BACKGROUND_X = 0
-BACKGROUND_X_2 =LEVEL1.get_width()
+BACKGROUND_X_2 = LEVEL1.get_width()
+
 SKELETON_LIVING = False
 OPENED = False
 LEFT = False
 RIGHT = False
+PRAYING = False
+PRAY_COUNT = 0
 SKELETON_COUNT = 0
 STAND_COUNT = 0
 WALK_COUNT = 0
+
 FONT_TYPE = r'Fonts\pixeboy.ttf'
 FONT_SIZE = 60
