@@ -33,10 +33,11 @@ class Player:
             self.walk_count = 0
 
 
-def redrawGameWindow():
+def redraw_game_window():
     SCREEN.blit(LEVEL1, (0, 0))
     SCREEN.blit(CONSTANTS.CHEST, (WIDTH//2, 290))
     MainMenu().draw_text('TUTORIAL', pygame.font.Font(FONT_TYPE, FONT_SIZE), (255, 255, 255), SCREEN, 0)
+
     if CONSTANTS.WALK_COUNT + 1 >= 24:
         CONSTANTS.WALK_COUNT = 0
 
@@ -46,8 +47,19 @@ def redrawGameWindow():
     elif CONSTANTS.SKELETON_COUNT + 1 >= 24:
         CONSTANTS.SKELETON_COUNT = 0
 
+    elif CONSTANTS.CROUCH_COUNT + 1 >= 24:
+        CONSTANTS.CROUCH_COUNT = 0
+
     elif CONSTANTS.PRAY_COUNT + 1 >= 36:
         CONSTANTS.PRAY_COUNT = 0
+
+    elif CONSTANTS.ATTACK_RIGHT_COUNT + 1 >= 60:
+        CONSTANTS.ATTACK_RIGHT_COUNT = 0
+        CONSTANTS.ATTACK_RIGHT_BOOL = False
+
+    elif CONSTANTS.ATTACK_LEFT_COUNT + 1 >= 60:
+        CONSTANTS.ATTACK_LEFT_COUNT = 0
+        CONSTANTS.ATTACK_LEFT_BOOL = False
 
     if CONSTANTS.OPENED:
         SCREEN.blit(CONSTANTS.CHEST_OPENED, (WIDTH//2, 290))
@@ -63,8 +75,19 @@ def redrawGameWindow():
         SCREEN.blit(pygame.transform.scale(WALK_RIGHT[CONSTANTS.WALK_COUNT//3], (128, 64)), (CONSTANTS.X, CONSTANTS.Y))
         CONSTANTS.WALK_COUNT += 1
 
+    elif CONSTANTS.CROUCHING:
+        SCREEN.blit(CROUCH[CONSTANTS.CROUCH_COUNT//3], (CONSTANTS.X, CONSTANTS.Y))
+
     elif CONSTANTS.PRAYING:
         SCREEN.blit(PRAY[CONSTANTS.PRAY_COUNT//3], (CONSTANTS.X, CONSTANTS.Y))
+
+    elif CONSTANTS.ATTACK_RIGHT_BOOL:
+        SCREEN.blit(ATTACK_RIGHT[CONSTANTS.ATTACK_RIGHT_COUNT//3], (CONSTANTS.X, CONSTANTS.Y))
+        CONSTANTS.ATTACK_RIGHT_COUNT += 1
+
+    elif CONSTANTS.ATTACK_LEFT_BOOL:
+        SCREEN.blit(ATTACK_LEFT[CONSTANTS.ATTACK_LEFT_COUNT//3], (CONSTANTS.X, CONSTANTS.Y))
+        CONSTANTS.ATTACK_LEFT_COUNT += 1
 
     else:
         SCREEN.blit(pygame.transform.scale(PLAYER[CONSTANTS.STAND_COUNT//3], (128, 64)), (CONSTANTS.X, CONSTANTS.Y))
@@ -105,8 +128,16 @@ class MainMenu(object):
                     if event.key == pygame.K_ESCAPE:
                         running = False
 
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        CONSTANTS.ATTACK_RIGHT_BOOL = True
+
+                    elif event.button == 3:
+                        print("Pressed")
+                        CONSTANTS.ATTACK_LEFT_BOOL = True
+
             keys = pygame.key.get_pressed()
-            print(CONSTANTS.WIDTH//2, CONSTANTS.X, CONSTANTS.Y)
+            # print(CONSTANTS.WIDTH//2, CONSTANTS.X, CONSTANTS.Y)
             if keys[pygame.K_LEFT] and CONSTANTS.X > CONSTANTS.VEL:
                 CONSTANTS.X -= VEL
                 CONSTANTS.RIGHT = False
@@ -119,6 +150,10 @@ class MainMenu(object):
                 CONSTANTS.LEFT = False
                 print('right')
 
+            elif keys[pygame.K_LCTRL]:
+                CONSTANTS.CROUCHING = True
+                CONSTANTS.CROUCH_COUNT += 1
+
             elif keys[pygame.K_e]:
                 CONSTANTS.PRAYING = True
                 CONSTANTS.PRAY_COUNT += 1
@@ -128,14 +163,18 @@ class MainMenu(object):
                 CONSTANTS.OPENED = True
                 print("Open")
 
+            elif keys[pygame.K_ESCAPE]:
+                MainMenu().main()
+
             else:
                 CONSTANTS.PRAYING = False
+                CONSTANTS.CROUCHING = False
                 CONSTANTS.RIGHT = False
                 CONSTANTS.LEFT = False
                 CONSTANTS.WALK_COUNT = 0
                 CONSTANTS.STAND_COUNT += 1
 
-            redrawGameWindow()
+            redraw_game_window()
 
     def about(self):
         SCREEN.blit(BACKGROUND, (0, 0))
