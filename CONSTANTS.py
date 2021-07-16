@@ -42,6 +42,15 @@ SKELETON = [pygame.image.load(r'Sprites\SL1.png'),
             pygame.image.load(r'Sprites\SL10.png'),
             pygame.image.load(r'Sprites\SL11.png')]
 
+CROUCH = [pygame.image.load(r'Sprites\C1.png'),
+          pygame.image.load(r'Sprites\C2.png'),
+          pygame.image.load(r'Sprites\C3.png'),
+          pygame.image.load(r'Sprites\C4.png'),
+          pygame.image.load(r'Sprites\C5.png'),
+          pygame.image.load(r'Sprites\C6.png'),
+          pygame.image.load(r'Sprites\C7.png'),
+          pygame.image.load(r'Sprites\C8.png')]
+
 PRAY = [pygame.image.load(r'Sprites\P0.png'),
         pygame.image.load(r'Sprites\P1.png'),
         pygame.image.load(r'Sprites\P2.png'),
@@ -54,6 +63,49 @@ PRAY = [pygame.image.load(r'Sprites\P0.png'),
         pygame.image.load(r'Sprites\P9.png'),
         pygame.image.load(r'Sprites\P10.png'),
         pygame.image.load(r'Sprites\P11.png')]
+
+ATTACK_RIGHT = [pygame.image.load(r'Sprites\ATTACK KNIGHT\R1.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R2.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R3.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R4.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R5.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R6.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R7.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R8.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R9.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R10.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R11.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R12.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R13.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R14.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R15.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R16.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R17.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R18.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R19.png'),
+                pygame.image.load(r'Sprites\ATTACK KNIGHT\R20.png')]
+
+
+ATTACK_LEFT = [pygame.image.load(r'Sprites\ATTACK KNIGHT\L1.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L2.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L3.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L4.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L5.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L6.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L7.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L8.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L9.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L10.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L11.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L12.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L13.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L14.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L15.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L16.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L17.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L18.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L19.png'),
+               pygame.image.load(r'Sprites\ATTACK KNIGHT\L20.png')]
 
 CHEST = pygame.image.load(r"Sprites\chest.png")
 
@@ -82,10 +134,16 @@ OPENED = False
 LEFT = False
 RIGHT = False
 PRAYING = False
+ATTACK_RIGHT_BOOL = False
+ATTACK_LEFT_BOOL = False
+CROUCHING = False
+CROUCH_COUNT = 0
 PRAY_COUNT = 0
 SKELETON_COUNT = 0
 STAND_COUNT = 0
 WALK_COUNT = 0
+ATTACK_RIGHT_COUNT = 0
+ATTACK_LEFT_COUNT = 0
 
 FONT_TYPE = r'Fonts\pixeboy.ttf'
 FONT_SIZE = 60
