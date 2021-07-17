@@ -107,6 +107,22 @@ ATTACK_LEFT = [pygame.image.load(r'Sprites\ATTACK KNIGHT\L1.png'),
                pygame.image.load(r'Sprites\ATTACK KNIGHT\L19.png'),
                pygame.image.load(r'Sprites\ATTACK KNIGHT\L20.png')]
 
+SLIDING = [pygame.image.load(r"Sprites\SLIDING1.png"),
+           pygame.image.load(r"Sprites\SLIDING2.png"),
+           pygame.image.load(r"Sprites\SLIDING3.png"),
+           pygame.image.load(r"Sprites\SLIDING4.png"),
+           pygame.image.load(r"Sprites\SLIDING5.png"),
+           pygame.image.load(r"Sprites\SLIDING6.png"),
+           pygame.image.load(r"Sprites\SLIDING7.png"),
+           pygame.image.load(r"Sprites\SLIDING8.png"),
+           pygame.image.load(r"Sprites\SLIDING9.png"),
+           pygame.image.load(r"Sprites\SLIDING10.png")]
+
+DYING = [pygame.image.load(r"Sprites\D1.png"),
+         pygame.image.load(r"Sprites\D2.png"),
+         pygame.image.load(r"Sprites\D3.png"),
+         pygame.image.load(r"Sprites\D4.png")]
+
 CHEST = pygame.image.load(r"Sprites\chest.png")
 
 CHEST_OPENED = pygame.image.load(r"Sprites\chest_opened.png")
@@ -137,6 +153,8 @@ PRAYING = False
 ATTACK_RIGHT_BOOL = False
 ATTACK_LEFT_BOOL = False
 CROUCHING = False
+SLIDING_BOOL = False
+SLIDE_COUNT = 0
 CROUCH_COUNT = 0
 PRAY_COUNT = 0
 SKELETON_COUNT = 0
