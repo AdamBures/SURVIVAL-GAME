@@ -53,6 +53,10 @@ def redraw_game_window():
     elif CONSTANTS.PRAY_COUNT + 1 >= 36:
         CONSTANTS.PRAY_COUNT = 0
 
+    elif CONSTANTS.SLIDE_COUNT + 1 >= 30:
+        CONSTANTS.SLIDE_COUNT = 0
+        CONSTANTS.SLIDING_BOOL = False
+
     elif CONSTANTS.ATTACK_RIGHT_COUNT + 1 >= 60:
         CONSTANTS.ATTACK_RIGHT_COUNT = 0
         CONSTANTS.ATTACK_RIGHT_BOOL = False
@@ -88,6 +92,10 @@ def redraw_game_window():
     elif CONSTANTS.ATTACK_LEFT_BOOL:
         SCREEN.blit(ATTACK_LEFT[CONSTANTS.ATTACK_LEFT_COUNT//3], (CONSTANTS.X, CONSTANTS.Y))
         CONSTANTS.ATTACK_LEFT_COUNT += 1
+
+    elif CONSTANTS.SLIDING_BOOL:
+        SCREEN.blit(SLIDING[CONSTANTS.SLIDE_COUNT//3], (CONSTANTS.X, CONSTANTS.Y))
+        CONSTANTS.SLIDE_COUNT += 1
 
     else:
         SCREEN.blit(pygame.transform.scale(PLAYER[CONSTANTS.STAND_COUNT//3], (128, 64)), (CONSTANTS.X, CONSTANTS.Y))
@@ -163,10 +171,17 @@ class MainMenu(object):
                 CONSTANTS.OPENED = True
                 print("Open")
 
+            elif keys[pygame.K_LSHIFT]:
+                CONSTANTS.X += VEL*2
+                CONSTANTS.SLIDING_BOOL = True
+                CONSTANTS.SLIDE_COUNT += 1
+                print("Sliding")
+
             elif keys[pygame.K_ESCAPE]:
                 MainMenu().main()
 
             else:
+                CONSTANTS.SLIDING_BOOL = False
                 CONSTANTS.PRAYING = False
                 CONSTANTS.CROUCHING = False
                 CONSTANTS.RIGHT = False
