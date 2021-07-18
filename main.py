@@ -10,32 +10,28 @@ pygame.display.set_caption("Survival game")
 SCREEN.blit(BACKGROUND, (0, 0))
 
 
-class Player:
+class Player(object):
     def __init__(self):
-        self.left = False
-        self.right = False
-        self.walk_count = 0
+        self.HEALTH = 3
+        self.STAMINA = 5
 
-    def redraw_game_window(self):
-        SCREEN.blit(LEVEL1, (0, 0))
-        if self.walk_count + 1 >= 24:
-            self.walk_count = 0
+    def check_if_dead(self):
+        if self.HEALTH == 0 and not CONSTANTS.DEAD:
+            CONSTANTS.DEAD = True
+            print("Dead")
 
-        if self.left:
-            SCREEN.blit(WALK_LEFT[self.walk_count // 3].convert_alpha(), (CONSTANTS.X, CONSTANTS.Y))
-            self.walk_count += 1
-
-        elif self.right:
-            SCREEN.blit(WALK_RIGHT[self.walk_count // 3].convert_alpha(), (CONSTANTS.X, CONSTANTS.Y))
-            self.walk_count += 1
-        else:
-            SCREEN.blit(PLAYER.convert_alpha(), (CONSTANTS.X, CONSTANTS.Y))
-            self.walk_count = 0
+    def check_if_out_of_stamina(self):
+        if self.STAMINA == 0 and not CONSTANTS.OUT_OF_STAMINA:
+            CONSTANTS.OUT_OF_STAMINA = True
+            print("Out of Stamina")
 
 
 def redraw_game_window():
     SCREEN.blit(LEVEL1, (0, 0))
     SCREEN.blit(CONSTANTS.CHEST, (WIDTH//2, 290))
+    back_to_menu = pygame.Rect(0, 0, 40, 40)
+    pygame.draw.rect(SCREEN, (118, 118, 118), back_to_menu, border_radius=4)
+    MainMenu().draw_text_with_position("<-", pygame.font.Font(FONT_TYPE, 32), (255, 255, 255), SCREEN, 5, 10)
     MainMenu().draw_text('TUTORIAL', pygame.font.Font(FONT_TYPE, FONT_SIZE), (255, 255, 255), SCREEN, 0)
 
     if CONSTANTS.WALK_COUNT + 1 >= 24:
@@ -55,7 +51,7 @@ def redraw_game_window():
 
     elif CONSTANTS.SLIDE_COUNT + 1 >= 30:
         CONSTANTS.SLIDE_COUNT = 0
-        CONSTANTS.SLIDING_BOOL = False
+        CONSTANTS.SLIDING_BOOL_RIGHT = False
 
     elif CONSTANTS.ATTACK_RIGHT_COUNT + 1 >= 60:
         CONSTANTS.ATTACK_RIGHT_COUNT = 0
@@ -93,8 +89,12 @@ def redraw_game_window():
         SCREEN.blit(ATTACK_LEFT[CONSTANTS.ATTACK_LEFT_COUNT//3], (CONSTANTS.X, CONSTANTS.Y))
         CONSTANTS.ATTACK_LEFT_COUNT += 1
 
-    elif CONSTANTS.SLIDING_BOOL:
+    elif CONSTANTS.SLIDING_BOOL_RIGHT:
         SCREEN.blit(SLIDING[CONSTANTS.SLIDE_COUNT//3], (CONSTANTS.X, CONSTANTS.Y))
+        CONSTANTS.SLIDE_COUNT += 1
+
+    elif CONSTANTS.SLIDING_BOOL_LEFT:
+        SCREEN.blit(pygame.transform.flip(SLIDING[CONSTANTS.SLIDE_COUNT//3], True, False), (CONSTANTS.X, CONSTANTS.Y))
         CONSTANTS.SLIDE_COUNT += 1
 
     else:
@@ -111,7 +111,7 @@ class MainMenu(object):
     def __init__(self):
         super().__init__()
 
-    def draw_text_with_position(self, text, font, color, surface, x, y):
+    def draw_text_with_position(self, text: str, font, color: tuple, surface, x: int, y: int) -> None:
         text_obj = font.render(text, 1, color)
         text_rect = text_obj.get_rect()
         text_rect.topleft = (x, y)
@@ -145,8 +145,22 @@ class MainMenu(object):
                         CONSTANTS.ATTACK_LEFT_BOOL = True
 
             keys = pygame.key.get_pressed()
-            # print(CONSTANTS.WIDTH//2, CONSTANTS.X, CONSTANTS.Y)
-            if keys[pygame.K_LEFT] and CONSTANTS.X > CONSTANTS.VEL:
+            if keys[pygame.K_LSHIFT]:
+                if keys[pygame.K_RIGHT]:
+                    CONSTANTS.X += VEL*2
+                    CONSTANTS.SLIDING_BOOL_RIGHT = True
+                    CONSTANTS.SLIDING_BOOL_LEFT = False
+                    CONSTANTS.SLIDE_COUNT += 1
+                    print("Sliding")
+
+                elif keys[pygame.K_LEFT] and CONSTANTS.X > CONSTANTS.VEL:
+                    CONSTANTS.X -= VEL*2
+                    CONSTANTS.SLIDING_BOOL_LEFT = True
+                    CONSTANTS.SLIDING_BOOL_RIGHT = False
+                    CONSTANTS.SLIDE_COUNT += 1
+                    print("Sliding left")
+
+            elif keys[pygame.K_LEFT] and CONSTANTS.X > CONSTANTS.VEL:
                 CONSTANTS.X -= VEL
                 CONSTANTS.RIGHT = False
                 CONSTANTS.LEFT = True
@@ -171,17 +185,12 @@ class MainMenu(object):
                 CONSTANTS.OPENED = True
                 print("Open")
 
-            elif keys[pygame.K_LSHIFT]:
-                CONSTANTS.X += VEL*2
-                CONSTANTS.SLIDING_BOOL = True
-                CONSTANTS.SLIDE_COUNT += 1
-                print("Sliding")
-
             elif keys[pygame.K_ESCAPE]:
                 MainMenu().main()
 
             else:
-                CONSTANTS.SLIDING_BOOL = False
+                CONSTANTS.SLIDING_BOOL_RIGHT = False
+                CONSTANTS.SLIDING_BOOL_LEFT = False
                 CONSTANTS.PRAYING = False
                 CONSTANTS.CROUCHING = False
                 CONSTANTS.RIGHT = False
