@@ -123,22 +123,58 @@ DYING = [pygame.image.load(r"Sprites\D1.png"),
          pygame.image.load(r"Sprites\D3.png"),
          pygame.image.load(r"Sprites\D4.png")]
 
+SKELETON_ATTACKING = [pygame.image.load(r"Sprites\SKELETON ATTACKING\tile000.png"),
+                      pygame.image.load(r"Sprites\SKELETON ATTACKING\tile001.png"),
+                      pygame.image.load(r"Sprites\SKELETON ATTACKING\tile002.png"),
+                      pygame.image.load(r"Sprites\SKELETON ATTACKING\tile003.png"),
+                      pygame.image.load(r"Sprites\SKELETON ATTACKING\tile004.png"),
+                      pygame.image.load(r"Sprites\SKELETON ATTACKING\tile005.png"),
+                      pygame.image.load(r"Sprites\SKELETON ATTACKING\tile006.png"),
+                      pygame.image.load(r"Sprites\SKELETON ATTACKING\tile007.png"),
+                      pygame.image.load(r"Sprites\SKELETON ATTACKING\tile008.png"),
+                      pygame.image.load(r"Sprites\SKELETON ATTACKING\tile009.png"),
+                      pygame.image.load(r"Sprites\SKELETON ATTACKING\tile010.png"),
+                      pygame.image.load(r"Sprites\SKELETON ATTACKING\tile011.png"),
+                      pygame.image.load(r"Sprites\SKELETON ATTACKING\tile012.png"),
+                      pygame.image.load(r"Sprites\SKELETON ATTACKING\tile013.png"),
+                      pygame.image.load(r"Sprites\SKELETON ATTACKING\tile014.png"),
+                      pygame.image.load(r"Sprites\SKELETON ATTACKING\tile015.png"),
+                      pygame.image.load(r"Sprites\SKELETON ATTACKING\tile016.png"),
+                      pygame.image.load(r"Sprites\SKELETON ATTACKING\tile017.png")]
+
+HEAL = [pygame.image.load(r"Sprites\H1.png"),
+        pygame.image.load(r"Sprites\H2.png"),
+        pygame.image.load(r"Sprites\H3.png"),
+        pygame.image.load(r"Sprites\H4.png"),
+        pygame.image.load(r"Sprites\H5.png"),
+        pygame.image.load(r"Sprites\H6.png"),
+        pygame.image.load(r"Sprites\H7.png"),
+        pygame.image.load(r"Sprites\H8.png")]
+
 CHEST = pygame.image.load(r"Sprites\chest.png")
 
 CHEST_OPENED = pygame.image.load(r"Sprites\chest_opened.png")
 
 X = 50
 Y = 290
+VEL_Y = 10
 WIDTH_PLAYER = 40
 HEIGHT_PLAYER = 60
 VEL = 5
-
 FPS = 27
 CLOCK = pygame.time.Clock()
 
+SONG = r"Songs\theme.mp3"
+CRUSH = r"Effects\bone crush.mp3"
+BONUS = r"Effects\bonus.wav"
+CLICK = r"Effects\click.wav"
+HEALING_SOUND = r"Effects\healing.wav"
+HIT = r"Effects\hit.wav"
+SWORD = r"Effects\sword.mp3"
+
 IMAGE = r"Pictures\images.jpg"
 BACKGROUND = pygame.image.load(IMAGE)
-LEVEL1 = pygame.image.load(r"Pictures\level1.jpg")
+LEVEL1 = pygame.image.load(r"Pictures\level.jpg")
 WIDTH = BACKGROUND.get_width()
 HEIGHT = BACKGROUND.get_height()
 
@@ -153,15 +189,25 @@ PRAYING = False
 ATTACK_RIGHT_BOOL = False
 ATTACK_LEFT_BOOL = False
 CROUCHING = False
-SLIDING_BOOL = False
+SLIDING_BOOL_RIGHT = False
+SLIDING_BOOL_LEFT = False
+DEAD = False
+OUT_OF_STAMINA = False
+HEALING = False
+JUMPING = False
+
+HEALING_COUNT = 0
+SKELETON_ATTACK_COUNT = 0
 SLIDE_COUNT = 0
 CROUCH_COUNT = 0
+DYING_COUNT = 0
 PRAY_COUNT = 0
 SKELETON_COUNT = 0
 STAND_COUNT = 0
 WALK_COUNT = 0
 ATTACK_RIGHT_COUNT = 0
 ATTACK_LEFT_COUNT = 0
+JUMP_COUNT = 0
 
 FONT_TYPE = r'Fonts\pixeboy.ttf'
 FONT_SIZE = 60
